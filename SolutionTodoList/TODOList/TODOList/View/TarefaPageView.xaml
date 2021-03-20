@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:convert="clr-namespace:TODOList.Converter"
+             x:Class="TODOList.View.TarefaPageView"
+             x:Name="TarefaPage">
+
+    <ContentPage.Resources>
+    
+        <ResourceDictionary>
+
+            <convert:FinalizadoConverter x:Key="cvtFinalizado"/>
+
+        </ResourceDictionary>
+    
+    </ContentPage.Resources>
+    
+    <ContentPage.Content>
+
+        <StackLayout>
+
+            <Label Text="Tarefa"
+                FontSize="Small"/>
+
+            <StackLayout
+                Orientation="Horizontal">
+
+                <Entry
+                    x:Name="edtTarefa"
+                    Text="{Binding TarefaAtual.Description}"
+                    Placeholder="Digite uma nova tarefa."
+                    HorizontalOptions="FillAndExpand"/>
+
+                <Button
+                    x:Name="btnSalvarTarefa"
+                    Text="Salvar"
+                    Command="{Binding SalvarCommand}"
+                    CommandParameter="{Binding .}"/>
+
+
+            </StackLayout>
+
+            <Label
+                Text="Lista de tarefas"
+                HorizontalOptions="CenterAndExpand"
+                FontSize="Title"
+                FontAttributes="Bold"
+                Margin="0,20"/>
+
+            <ListView
+                x:Name="lvtTarefas"
+                ItemsSource="{Binding ListaTarefa}">
+
+                <ListView.ItemTemplate>
+
+                    <DataTemplate>
+
+                        <ViewCell>
+
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Text="Excluir"
+                                    Command="{Binding Source={x:Reference TarefaPage},
+                                                Path=BindingContext.ExcluirCommand}"
+                                    CommandParameter="{Binding .}"/>
+
+                                <MenuItem
+                                    Text="Editar"
+                                    Command="{Binding Source={x:Reference TarefaPage},
+                                                Path=BindingContext.EditarCommand}"
+                                    CommandParameter="{Binding .}"/>
+
+                            </ViewCell.ContextActions>
+
+                            <StackLayout
+                                Orientation="Horizontal">
+
+                                <Label
+                                    x:Name="lblDescription"
+                                    Text="{Binding Description}"
+                                    HorizontalOptions="StartAndExpand"
+                                    VerticalOptions="Center"/>
+
+                                <Button
+                                    x:Name="btnSituacao"
+                                    Text="{Binding Done, Converter={StaticResource cvtFinalizado}}"
+                                    HorizontalOptions="EndAndExpand"
+                                    VerticalOptions="Center"
+                                     Command="{Binding Source={x:Reference TarefaPage},
+                                                Path=BindingContext.EditarSituacaoCommand}"
+                                    CommandParameter="{Binding .}"/>
+
+                                <!--<Label
+                                    x:Name="lblSituacao"
+                                    Text="{Binding Done}"
+                                    HorizontalOptions="EndAndExpand"/>-->
+
+                            </StackLayout>
+                            
+                        </ViewCell>
+                        
+                        
+                    </DataTemplate>
+                                        
+                    
+                </ListView.ItemTemplate>
+                
+            </ListView>
+
+        </StackLayout>
+
+    </ContentPage.Content>
+        
+</ContentPage>
